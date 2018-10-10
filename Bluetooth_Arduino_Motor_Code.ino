@@ -1,133 +1,54 @@
-int motorControllA = 4;
-int motorControllB = 3;
-
-int motorControllC = 6;
-int motorControllD = 5;
-
-int motorControllE = 10;
-int motorControllF = 9;
-
-int motorControllG = 13;
-int motorControllH = 12;
-
-int motorSpeed1 = 2;
-int motorSpeed2 = 7;
-int motorSpeed3 = 8;
-int motorSpeed4 = 11;
-
+char t;
+ 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println(">> START<<");  
-  
-  pinMode(motorControllA, OUTPUT);
-  pinMode(motorControllB, OUTPUT);
-  pinMode(motorControllC, OUTPUT);
-  pinMode(motorControllD, OUTPUT);
-  pinMode(motorControllE, OUTPUT);
-  pinMode(motorControllF, OUTPUT);
-  pinMode(motorControllG, OUTPUT);
-  pinMode(motorControllH, OUTPUT);
+pinMode(13,OUTPUT);   //left motors forward
+pinMode(12,OUTPUT);   //left motors reverse
+pinMode(11,OUTPUT);   //right motors forward
+pinMode(10,OUTPUT);   //right motors reverse
+ 
+Serial.begin(9600);
+ 
 }
-
+ 
 void loop() {
-  if(Serial.available() > 0)
-  {
-    char data;
-    data = Serial.read();
-    Serial.write(Serial.read());
-
-    switch (data)
-    {
-      
-      case '1': //FORWARD
-          digitalWrite(motorControllA, HIGH);
-          digitalWrite(motorControllB, LOW);
-          analogWrite(motorSpeed1, 255);
-
-          digitalWrite(motorControllC, HIGH);
-          digitalWrite(motorControllD, LOW);
-          analogWrite(motorSpeed2, 255);
-
-          digitalWrite(motorControllE, HIGH);
-          digitalWrite(motorControllF, LOW);
-          analogWrite(motorSpeed3, 255);
-
-          digitalWrite(motorControllG, HIGH);
-          digitalWrite(motorControllH, LOW);
-          analogWrite(motorSpeed4, 255);
-        break;
-        
-      case '2': //REVERSE
-          digitalWrite(motorControllA, LOW);
-          digitalWrite(motorControllB, HIGH);
-          analogWrite(motorSpeed1, 255);
-
-          digitalWrite(motorControllC, LOW);
-          digitalWrite(motorControllD, HIGH);
-          analogWrite(motorSpeed2, 255);
-
-          digitalWrite(motorControllE, LOW);
-          digitalWrite(motorControllF, HIGH);
-          analogWrite(motorSpeed3, 255);
-
-          digitalWrite(motorControllG, LOW);
-          digitalWrite(motorControllH, HIGH);
-          analogWrite(motorSpeed4, 255);
-        break;
-        
-      case '3': //FORWARD LEFT
-          digitalWrite(motorControllA, HIGH);
-          digitalWrite(motorControllB, LOW);
-          analogWrite(motorSpeed1, 255);
-
-          digitalWrite(motorControllC, HIGH);
-          digitalWrite(motorControllD, LOW);
-          analogWrite(motorSpeed2, 255);
-
-          digitalWrite(motorControllE, LOW);
-          digitalWrite(motorControllF, HIGH);
-          analogWrite(motorSpeed3, 225);
-
-          digitalWrite(motorControllG, LOW);
-          digitalWrite(motorControllH, HIGH);
-          analogWrite(motorSpeed4, 225);
-        break;
-        
-      case '4': //FORWARD RIGHT
-          digitalWrite(motorControllA, LOW);
-          digitalWrite(motorControllB, HIGH);
-          analogWrite(motorSpeed1, 225);
-
-          digitalWrite(motorControllC, LOW);
-          digitalWrite(motorControllD, HIGH);
-          analogWrite(motorSpeed2, 225);
-
-          digitalWrite(motorControllE, HIGH);
-          digitalWrite(motorControllF, LOW);
-          analogWrite(motorSpeed3, 225);
-
-          digitalWrite(motorControllG, HIGH);
-          digitalWrite(motorControllH, LOW);
-          analogWrite(motorSpeed4, 225);
-        break;
-               
-      default: //If bluetooth module receives any value not listed above, both motors turn off
-          digitalWrite(motorControllA, LOW);
-          digitalWrite(motorControllB, LOW);
-          analogWrite(motorSpeed1, 0);
-
-          digitalWrite(motorControllC, LOW);
-          digitalWrite(motorControllD, LOW);
-          analogWrite(motorSpeed2, 0);
-
-          digitalWrite(motorControllE, LOW);
-          digitalWrite(motorControllF, LOW);
-          analogWrite(motorSpeed3, 0);
-
-          digitalWrite(motorControllG, LOW);
-          digitalWrite(motorControllH, LOW);
-          analogWrite(motorSpeed4, 0);
-    }
-  }
+if(Serial.available()){
+  t = Serial.read();
+  Serial.println(t);
+}
+ 
+if(t == '1'){            //move forward(all motors rotate in forward direction)
+  digitalWrite(13,HIGH);
+  digitalWrite(12,LOW);
+  digitalWrite(11,HIGH);
+  digitalWrite(10,LOW);
+}
+ 
+else if(t == '2'){      //move reverse (all motors rotate in reverse direction)
+  digitalWrite(13,LOW);
+  digitalWrite(12,HIGH);
+  digitalWrite(11,LOW);
+  digitalWrite(10,HIGH);
+}
+ 
+else if(t == '3'){      //turn right (left side motors rotate in forward direction, right side motors doesn't rotate)
+  digitalWrite(13,LOW);
+  digitalWrite(12,LOW);
+  digitalWrite(11,HIGH);
+  digitalWrite(10,LOW);
+}
+ 
+else if(t == '4'){      //turn left (right side motors rotate in forward direction, left side motors doesn't rotate)
+  digitalWrite(13,HIGH);
+  digitalWrite(12,LOW);
+  digitalWrite(11,LOW);
+  digitalWrite(10,LOW);
+}
+ 
+else if(t == '5'){      //STOP (all motors stop)
+  digitalWrite(13,LOW);
+  digitalWrite(12,LOW);
+  digitalWrite(11,LOW);
+  digitalWrite(10,LOW);
+}
+delay(100);
 }

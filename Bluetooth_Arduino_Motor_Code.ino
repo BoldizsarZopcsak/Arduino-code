@@ -10,6 +10,9 @@ int motorControllF = 9;
 int motorControllG = 13;
 int motorControllH = 12;
 
+// led for headlights
+int led = 7;
+
 int motorSpeed1 = 2;
 int motorSpeed2 = 7;
 int motorSpeed3 = 8;
@@ -40,6 +43,11 @@ void loop() {
     switch (data)
     {
       
+//       create a custom button for led and set the value as 5
+        
+      case '5': //led on
+          digitalWrite(led, HIGH);
+        
       case '1': //FORWARD
           digitalWrite(motorControllA, HIGH);
           digitalWrite(motorControllB, LOW);
